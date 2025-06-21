@@ -51,8 +51,7 @@ const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5173',
   'https://craftoraa.netlify.app',
-  'https://ecommerce-backend3-31p8.vercel.app',
-  '*'
+  'https://ecommerce-backend3-31p8.vercel.app'
 ];
 
 const corsOptions = {
