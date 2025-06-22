@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const domainURL = process.env.DOMAIN || 'https://craftoraaa.netlify.app';
+
 
 //Checkout Session Route (Option A)
 router.post('/create-checkout-session', async (req, res) => {
