@@ -50,7 +50,7 @@ const allowedOrigins = [
   'http://localhost:5173',
   'https://craftoraa.netlify.app',
   'https://ecommerce-backend3-31p8.vercel.app',
-  'https://craftoraaa.netlify.app/'
+  'https://craftoraaa.netlify.app',
 ];
 
 const corsOptions = {
