@@ -17,7 +17,12 @@ router.get('/', async (req, res) => {
     let query = {};
 
     // Filter by category
-    if (category) query.category = category;
+    if (category) {
+      query.$or = [
+        { category: category },
+        { main_category: category }
+      ];
+    }
 
     // Price range filtering
     if (minPrice || maxPrice) {
@@ -28,8 +33,9 @@ router.get('/', async (req, res) => {
 
     // Simple search by name
     if (search) {
-      query.name = { $regex: search, $options: 'i' };
+      query.name = { $regex: `\\b${search}`, $options: 'i' };
     }
+
 
     const parsedLimit = parseInt(limit);
     const skip = (parseInt(page) - 1) * parsedLimit;
@@ -39,7 +45,7 @@ router.get('/', async (req, res) => {
     const products = await Product.find(query)
       .skip(skip)
       .limit(parsedLimit)
-      .select('-__v'); 
+      .select('-__v');
 
     res.json({
       total,
