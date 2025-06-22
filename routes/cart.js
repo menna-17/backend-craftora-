@@ -38,5 +38,4 @@ router.post('/', auth, async (req, res) => {
   }
 });
 
-// Make sure this line is exactly like this:
 module.exports = router;

@@ -28,12 +28,12 @@ router.post('/', async (req, res) => {
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log('Message sent:', info.messageId); // ⬅ أضف دي
+    console.log('Message sent:', info.messageId); 
 
     res.status(200).json({ message: 'Message sent successfully.' });
 
   } catch (error) {
-    console.error('Email send error:', error); // ⬅ دي بتطبع الخطأ
+    console.error('Email send error:', error); 
     res.status(500).json({ message: 'Failed to send message.' });
   }
 });

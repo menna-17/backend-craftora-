@@ -39,7 +39,7 @@ router.get('/', async (req, res) => {
     const products = await Product.find(query)
       .skip(skip)
       .limit(parsedLimit)
-      .select('-__v'); // Exclude version key
+      .select('-__v'); 
 
     res.json({
       total,
@@ -90,8 +90,6 @@ router.put('/:id', auth, roleCheck(['Admin', 'Seller']), async (req, res) => {
     if (!product) {
       return res.status(404).json({ error: 'Product not found' });
     }
-
-    // If image is not in the request, keep the existing image
     const updatedData = {
       ...product.toObject(),
       ...req.body,
@@ -126,12 +124,6 @@ router.get('/my-products', auth, roleCheck(['Seller']), async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
-
-
-
-
-
 
 // Delete product (admin can delete any, seller can delete their own)
 router.delete('/:id', auth, roleCheck(['Admin', 'Seller']), async (req, res) => {
