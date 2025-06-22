@@ -31,9 +31,9 @@ router.get('/', async (req, res) => {
       if (maxPrice) query.price.$lte = Number(maxPrice);
     }
 
-    // Simple search by name
+    // Simple search by title
     if (search) {
-      query.name = { $regex: `\\b${search}`, $options: 'i' };
+      query.title = { $regex: `\\b${search}`, $options: 'i' };
     }
 
 
