@@ -77,16 +77,25 @@ router.get('/all', auth, roleCheck(['Admin', 'Seller']), async (req, res) => {
       query = { 'items.product': { $in: sellerProducts.map(p => p._id) } };
     }
 
-    const orders = await Order.find(query)
+    let orders = await Order.find(query)
       .populate('user', 'name email')
       .populate('items.product')
       .sort({ createdAt: -1 });
+
+    orders = orders.map(order => {
+      const filteredItems = order.items.filter(item => item.product);
+      return {
+        ...order.toObject(),
+        items: filteredItems,
+      };
+    });
 
     res.json(orders);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 // Admin/Seller: Update order status
 router.patch('/:id/status', auth, roleCheck(['Admin', 'Seller']), async (req, res) => {
