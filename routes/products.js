@@ -90,7 +90,7 @@ router.post('/', auth, roleCheck(['Admin', 'Seller']), async (req, res) => {
 });
 
 // Update product (Admin or Seller)
-router.put('/:id', auth, roleCheck(['Admin', 'Seller']), async (req, res) => {
+/* router.put('/:id', auth, roleCheck(['Admin', 'Seller']), async (req, res) => {
   try {
     let product = await Product.findById(req.params.id);
     if (!product) {
@@ -118,8 +118,30 @@ router.put('/:id', auth, roleCheck(['Admin', 'Seller']), async (req, res) => {
     res.status(500).json({ error: 'Server error' });
   }
 });
+ */
+// Update product (Admin or Seller — unrestricted)
+router.put('/:id', auth, roleCheck(['Admin', 'Seller']), async (req, res) => {
+  try {
+    let product = await Product.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ error: 'Product not found' });
+    }
 
+    const updatedData = {
+      ...product.toObject(),
+      ...req.body,
+      image: req.body.image || product.image,
+    };
 
+    // ✅ No ownership check — both Admin and Seller can update any product
+    product = await Product.findByIdAndUpdate(req.params.id, updatedData, { new: true });
+
+    res.json(product);
+  } catch (err) {
+    console.error('Error updating product:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
 
 // Get seller's products
 router.get('/my-products', auth, roleCheck(['Seller']), async (req, res) => {
