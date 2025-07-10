@@ -137,7 +137,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ status: 'error', message: 'Internal server error' });
 });
 
-// Start server
+// Start the server
 connectDB().then(() => {
   app.listen(PORT, '0.0.0.0', () => {
     console.log(` Server is running on port ${PORT}`);
